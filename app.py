@@ -150,7 +150,11 @@ if selected_url:
                         key=f"reviewed_{selected_url}"
                     )
                     st.session_state["reviewed_status"][selected_url] = reviewed
-                    st.write(f"Reviewed: {st.session_state['reviewed_status'].get(selected_url, 'No')}")
+                    reviewed_status = st.session_state['reviewed_status'].get(selected_url, 'No')
+                    if reviewed_status == 'Yes':
+                        st.markdown(f"Reviewed: <span style='color: green;'>Yes</span>", unsafe_allow_html=True)
+                    else:
+                        st.write(f"Reviewed: {reviewed_status}")
 
                 elif key == "SEO":
                     st.subheader("SEO Information")
