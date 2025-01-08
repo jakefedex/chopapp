@@ -2,6 +2,64 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 
+# Inject custom CSS
+custom_css = """
+<style>
+/* Style the sidebar */
+.sidebar .block-container {
+    background-color: #f7f9fc;
+    padding: 20px;
+    border-right: 2px solid #ddd;
+}
+
+/* Style the headers */
+h1 {
+    color: #2b6777;
+    font-size: 32px;
+    font-weight: bold;
+}
+
+h2 {
+    color: #2b6777;
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+h3 {
+    color: #2b6777;
+    font-size: 24px;
+    margin-bottom: 8px;
+}
+
+/* Style the tabs */
+.css-1y4p8pa.e8zbici0 {
+    background-color: #e0f4f1;
+    border-radius: 5px;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+/* Style for text under Analytics */
+.analytics-text {
+    color: #555;
+    font-size: 16px;
+    margin: 5px 0;
+}
+
+/* Style the charts */
+.css-1f9s62r {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+</style>
+"""
+
+# Inject the CSS
+st.markdown(custom_css, unsafe_allow_html=True)
+
+
 # Set page configuration for wider layout
 st.set_page_config(layout="wide")
 
