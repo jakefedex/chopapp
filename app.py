@@ -31,6 +31,10 @@ def fetch_google_sheets_data():
 # Fetch data
 urls, page_data = fetch_google_sheets_data()
 
+# State to track user decisions
+if "url_decisions" not in st.session_state:
+    st.session_state["url_decisions"] = {}
+
 # Split layout
 col1, col2 = st.columns([1, 3])
 
@@ -54,9 +58,6 @@ with col2:
     st.header("Page Data")
 
     if selected_url:
-        # Display selected URL at the top of the right pane
-        st.subheader(f"Selected URL: {selected_url}")
-
         data = page_data.get(selected_url, {})
         if data:
             tab_names = list(data.keys()) + ["Analytics"]
@@ -100,5 +101,15 @@ with col2:
                         )
                     else:
                         st.write(f"**{key}**: {data[key]}")
+
+            # Decision options for the selected URL
+            st.subheader("Mark URL Decision")
+            decision = st.radio(
+                "What action should be taken for this URL?",
+                ["No Change", "Remove from Sitemap", "Delete"],
+                key=selected_url
+            )
+            st.session_state["url_decisions"][selected_url] = decision
+            st.write(f"Current Decision: {st.session_state['url_decisions'].get(selected_url, 'No Decision')}"))
         else:
             st.write("No data available for this URL.")
