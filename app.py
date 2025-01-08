@@ -125,7 +125,7 @@ if selected_url:
                             "Impressions": np.random.randint(100, 10000, 20),
                             "Clicks": np.random.randint(10, 500, 20),
                         }
-                    )
+                    ).sort_values(by="Clicks", ascending=False)
 
                     st.subheader("Search Query Data")
                     st.dataframe(search_query_data, use_container_width=True)
