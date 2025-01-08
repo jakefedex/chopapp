@@ -56,19 +56,9 @@ with col1:
         (reviewed_filter == "All" or st.session_state["reviewed_status"].get(url, "No") == reviewed_filter)
     ]
 
-    # Display filtered results in a table
+    # Dropdown for filtered URLs
     if filtered_urls:
-        table_data = [
-            {
-                "URL": url,
-                "Reviewed Status": st.session_state["reviewed_status"].get(url, "No"),
-                "Decision": st.session_state["url_decisions"].get(url, "No Decision")
-            }
-            for url in filtered_urls
-        ]
-        st.write(pd.DataFrame(table_data))
-
-        selected_url = st.selectbox("Select a URL", [row["URL"] for row in table_data])
+        selected_url = st.selectbox("Select a URL", filtered_urls)
     else:
         st.write("No matching URLs found.")
         selected_url = None
