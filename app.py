@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 
 # Google Sheets URL
-SHEET_URL = "your_public_google_sheet_url"  # Replace with your public Google Sheet URL
+SHEET_URL = "https://docs.google.com/spreadsheets/d/1ly5WBt0c0bRy_EV8kdkP4SjsaAmkiRbzhiEYLZw2NrU/edit?usp=sharing"  # Replace with your public Google Sheet URL
 
 # Fetch data from Google Sheets
 def fetch_google_sheets_data():
