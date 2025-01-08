@@ -1,0 +1,60 @@
+import streamlit as st
+
+# Sample data
+urls = [
+    "home/about",
+    "home/services/shipping",
+    "home/services/international",
+    "home/services/printing"
+]
+
+page_data = {
+    "home/about": {
+        "Performance": "95%",
+        "CWV": "Good",
+        "Page Speed": "1.2s",
+        "Recent Changes": "Updated meta description",
+        "Description": "About us page",
+        "Intent": "Informational",
+    },
+    "home/services/shipping": {
+        "Performance": "85%",
+        "CWV": "Needs Improvement",
+        "Page Speed": "2.3s",
+        "Recent Changes": "Added new FAQ",
+        "Description": "Shipping services overview",
+        "Intent": "Transactional",
+    },
+    "home/services/international": {
+        "Performance": "78%",
+        "CWV": "Poor",
+        "Page Speed": "3.5s",
+        "Recent Changes": "Updated rates",
+        "Description": "International shipping details",
+        "Intent": "Transactional",
+    },
+    "home/services/printing": {
+        "Performance": "92%",
+        "CWV": "Good",
+        "Page Speed": "1.8s",
+        "Recent Changes": "Added new product details",
+        "Description": "Printing services overview",
+        "Intent": "Transactional",
+    }
+}
+
+# Split layout
+col1, col2 = st.columns([1, 2])
+
+# Left column: List of URLs
+with col1:
+    st.header("URLs")
+    selected_url = st.radio("Select a URL", urls)
+
+# Right column: Page data
+with col2:
+    st.header("Page Data")
+    if selected_url:
+        data = page_data.get(selected_url, {})
+        for key, value in data.items():
+            st.write(f"**{key}**: {value}")
