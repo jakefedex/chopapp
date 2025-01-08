@@ -8,26 +8,16 @@ SHEET_URL = "https://docs.google.com/spreadsheets/d/1ly5WBt0c0bRy_EV8kdkP4SjsaAm
 def fetch_google_sheets_data():
     try:
         # Read the Google Sheet as a pandas DataFrame
-        sheet_data = pd.read_csv(SHEET_URL, on_bad_lines="skip")  # Skip problematic rows
-
-        # Debugging: Show raw data for verification
-        st.write("Raw Data:", sheet_data.head())
+        sheet_data = pd.read_csv(SHEET_URL)
 
         # Validate and clean the data
         sheet_data.iloc[:, 0] = sheet_data.iloc[:, 0].str.strip()  # Strip whitespace from URLs
-
-        # Ensure the first column contains valid URLs
-        valid_rows = sheet_data[sheet_data.iloc[:, 0].str.startswith("http", na=False)]
-        if valid_rows.empty:
-            st.error("No valid URLs found in the data.")
-            return [], {}
-
-        urls = valid_rows.iloc[:, 0].tolist()
+        urls = sheet_data.iloc[:, 0].tolist()  # Assuming first column contains URLs
 
         # Create a dictionary of page data
         page_data = {
             row[0]: {sheet_data.columns[i]: row[i] for i in range(1, len(sheet_data.columns))}
-            for row in valid_rows.itertuples(index=False)
+            for row in sheet_data.itertuples(index=False)
         }
         return urls, page_data
     except Exception as e:
@@ -55,14 +45,16 @@ with col1:
         st.write("No matching URLs found.")
         selected_url = None
 
-# Right column: Display page data
+# Right column: Display page data in tabs
 with col2:
     st.header("Page Data")
 
     if selected_url:
         data = page_data.get(selected_url, {})
         if data:
-            for key, value in data.items():
-                st.write(f"**{key}**: {value}")
+            tabs = st.tabs(list(data.keys()))
+            for i, key in enumerate(data.keys()):
+                with tabs[i]:
+                    st.write(f"**{key}**: {data[key]}")
         else:
             st.write("No data available for this URL.")
