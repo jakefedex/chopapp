@@ -46,15 +46,21 @@ page_data = {
 # Split layout
 col1, col2 = st.columns([1, 2])
 
-# Left column: List of URLs
+# Left column: Search and List of URLs
 with col1:
     st.header("URLs")
-    selected_url = st.radio("Select a URL", urls)
+
+    # Search field
+    search_query = st.text_input("Search URLs", "")
+    filtered_urls = [url for url in urls if search_query.lower() in url.lower()]
+
+    # Selectbox with filtered URLs
+    selected_url = st.selectbox("Select a URL", filtered_urls if filtered_urls else ["No matching URLs"])
 
 # Right column: Page data
 with col2:
     st.header("Page Data")
-    if selected_url:
+    if selected_url and selected_url != "No matching URLs":
         data = page_data.get(selected_url, {})
         for key, value in data.items():
             st.write(f"**{key}**: {value}")
