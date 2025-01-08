@@ -110,6 +110,6 @@ with col2:
                 key=selected_url
             )
             st.session_state["url_decisions"][selected_url] = decision
-            st.write(f"Current Decision: {st.session_state['url_decisions'].get(selected_url, 'No Decision')}"))
+            st.write(f"Current Decision: {st.session_state['url_decisions'].get(selected_url, 'No Decision')}")
         else:
             st.write("No data available for this URL.")
