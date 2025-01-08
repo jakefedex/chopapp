@@ -124,4 +124,4 @@ if selected_url:
                 else:
                     st.write(f"**{key}**: {data[key]}")
     else:
-        st.write("No data available for this URL.")
+        st.write("No data available for this URL.") 
