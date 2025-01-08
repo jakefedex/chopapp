@@ -56,7 +56,7 @@ with st.sidebar:
     ]
 
     # Dropdown for filtered URLs
-    selected_url = st.selectbox("Select a URL", filtered_urls) if filtered_urls else None
+    selected_url = st.selectbox("Select a URL", [url.replace("https://www.fedex.com", "") for url in filtered_urls]) if filtered_urls else None
 
 # Detailed view for the selected URL
 if selected_url:
@@ -138,7 +138,9 @@ if selected_url:
                 elif key == "SEO":
                     st.subheader("SEO Information")
                     if sheet_data is not None:
-                        row_data = sheet_data[sheet_data.iloc[:, 0] == selected_url].iloc[0, 6]
-                        st.write(f"**Backlinks:** {row_data}")
+                        row_data_backlinks = sheet_data[sheet_data.iloc[:, 0] == selected_url].iloc[0, 6]
+                        row_data_internal_links = sheet_data[sheet_data.iloc[:, 0] == selected_url].iloc[0, 7]
+                        st.write(f"**Backlinks:** {row_data_backlinks}")
+                        st.write(f"**Number of Internal Links:** {row_data_internal_links}")
     else:
         st.write("No data available for this URL.")
