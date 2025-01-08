@@ -120,12 +120,15 @@ if selected_url:
                     # Example search query data
                     search_query_data = pd.DataFrame(
                         {
-                            "Query": ["fedex tracking", "fedex shipping rates", "fedex near me"],
-                            "CTR": [3.5, 4.2, 5.0],
-                            "Impressions": [1000, 850, 1200],
-                            "Clicks": [35, 36, 60],
+                            "Query": [f"demo query {i}" for i in range(1, 21)],
+                            "CTR": np.random.uniform(1.0, 10.0, 20).round(2),
+                            "Impressions": np.random.randint(100, 10000, 20),
+                            "Clicks": np.random.randint(10, 500, 20),
                         }
                     )
+
+                    st.subheader("Search Query Data")
+                    st.dataframe(search_query_data, use_container_width=True)
 
                     st.subheader("Search Query Data")
                     st.dataframe(search_query_data)
