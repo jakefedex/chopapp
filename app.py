@@ -8,15 +8,13 @@ SHEET_URL = "https://docs.google.com/spreadsheets/d/1ly5WBt0c0bRy_EV8kdkP4SjsaAm
 def fetch_google_sheets_data():
     try:
         # Read the Google Sheet as a pandas DataFrame
-        sheet_data = pd.read_csv(SHEET_URL, on_bad_lines="skip")  # Skips problematic rows
-        st.write("Raw Data:", sheet_data)  # Debugging: Show raw data
+        sheet_data = pd.read_csv(SHEET_URL)
 
-        # Validate and clean URLs
-        sheet_data.iloc[:, 0] = sheet_data.iloc[:, 0].str.strip()  # Strip whitespace
-        st.write("URLs Column After Stripping:", sheet_data.iloc[:, 0])  # Debugging
+        # Validate and clean the data
+        sheet_data.iloc[:, 0] = sheet_data.iloc[:, 0].str.strip()  # Strip whitespace from URLs
+        urls = sheet_data.iloc[:, 0].tolist()  # Assuming first column contains URLs
 
-        # Extract URLs and Page Data
-        urls = sheet_data.iloc[:, 0].tolist()
+        # Create a dictionary of page data
         page_data = {
             row[0]: {sheet_data.columns[i]: row[i] for i in range(1, len(sheet_data.columns))}
             for row in sheet_data.itertuples(index=False)
@@ -34,9 +32,27 @@ col1, col2 = st.columns([1, 2])
 
 # Left column: Search and List of URLs
 with col1:
-    st.header("URLs")
+    st.header("Search URLs")
 
     # Search field
-    search_query = st.text_input("Search URLs", "")
+    search_query = st.text_input("Search", "")
     filtered_urls = [url for url in urls if search_query.lower() in url.lower()]
-    st.write("Filtered URLs:", filtered_urls)
+
+    # Dropdown for filtered URLs
+    if filtered_urls:
+        selected_url = st.selectbox("Select a URL", filtered_urls)
+    else:
+        st.write("No matching URLs found.")
+        selected_url = None
+
+# Right column: Display page data
+with col2:
+    st.header("Page Data")
+
+    if selected_url:
+        data = page_data.get(selected_url, {})
+        if data:
+            for key, value in data.items():
+                st.write(f"**{key}**: {value}")
+        else:
+            st.write("No data available for this URL.")
