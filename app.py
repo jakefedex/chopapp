@@ -117,6 +117,18 @@ if selected_url:
                     # Line chart for traffic data
                     st.line_chart(filtered_data.set_index("Date"))
 
+                    # Example search query data
+                    search_query_data = pd.DataFrame(
+                        {
+                            "Query": ["fedex tracking", "fedex shipping rates", "fedex near me"],
+                            "CTR": [3.5, 4.2, 5.0],
+                            "Impressions": [1000, 850, 1200],
+                            "Clicks": [35, 36, 60],
+                        }
+                    )
+
+                    st.subheader("Search Query Data")
+                    st.dataframe(search_query_data)
                 elif key == "Actions":
                     st.subheader("Mark URL Decision")
                     decision = st.radio(
