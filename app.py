@@ -2,6 +2,9 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 
+# Set page configuration for wider layout
+st.set_page_config(layout="wide")
+
 # Google Sheets URL
 SHEET_URL = "https://docs.google.com/spreadsheets/d/1ly5WBt0c0bRy_EV8kdkP4SjsaAmkiRbzhiEYLZw2NrU/export?format=csv"  # Replace with your public Google Sheet URL
 
@@ -60,10 +63,10 @@ with st.sidebar:
 # Detailed view for the selected URL
 if selected_url:
     st.header("Page Data")
-    st.write(f"Selected URL: {selected_url}")  # Display the selected URL above the tabs
+    st.subheader(f"Selected URL: {selected_url}")  # Display the selected URL above the tabs
     data = page_data.get(selected_url, {})
     if data:
-        tab_names = ["Description", "Analytics", "Actions", "SEO"]
+        tab_names = ["Description", "Analytics", "Actions", "SEO", "Embed"]
         tabs = st.tabs(tab_names)
         for i, key in enumerate(tab_names):
             with tabs[i]:
@@ -156,5 +159,12 @@ if selected_url:
                         row_data_internal_links = sheet_data[sheet_data.iloc[:, 0] == selected_url].iloc[0, 7]
                         st.write(f"**Backlinks:** {row_data_backlinks}")
                         st.write(f"**Number of Internal Links:** {row_data_internal_links}")
-    else:
+
+                elif key == "Embed":
+                    st.subheader("Embedded Page View")
+                    st.markdown(
+                        f'<iframe src="{selected_url}" width="100%" height="600" frameborder="0"></iframe>',
+                        unsafe_allow_html=True
+                    )
+                else:
         st.write("No data available for this URL.")
