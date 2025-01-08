@@ -54,6 +54,9 @@ with col2:
     st.header("Page Data")
 
     if selected_url:
+        # Display selected URL at the top of the right pane
+        st.subheader(f"Selected URL: {selected_url}")
+
         data = page_data.get(selected_url, {})
         if data:
             tab_names = list(data.keys()) + ["Analytics"]
