@@ -60,7 +60,7 @@ with st.sidebar:
 # Detailed view for the selected URL
 if selected_url:
     st.header("Page Data")
-    st.subheader(f"Selected URL: {selected_url}")  # Display the selected URL above the tabs
+    st.write(f"Selected URL: {selected_url}")  # Display the selected URL above the tabs
     data = page_data.get(selected_url, {})
     if data:
         tab_names = ["Description", "Analytics", "Actions", "SEO"]
