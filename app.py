@@ -35,6 +35,9 @@ urls, page_data = fetch_google_sheets_data()
 if "url_decisions" not in st.session_state:
     st.session_state["url_decisions"] = {}
 
+if "reviewed_status" not in st.session_state:
+    st.session_state["reviewed_status"] = {}
+
 # Split layout
 col1, col2 = st.columns([1, 3])
 
@@ -42,9 +45,16 @@ col1, col2 = st.columns([1, 3])
 with col1:
     st.header("Search URLs")
 
+    # Filter by reviewed status
+    reviewed_filter = st.selectbox("Filter by Reviewed Status", ["All", "Yes", "No"])
+
     # Search field
     search_query = st.text_input("Search", "")
-    filtered_urls = [url for url in urls if search_query.lower() in url.lower()]
+    filtered_urls = [
+        url for url in urls 
+        if search_query.lower() in url.lower() and 
+        (reviewed_filter == "All" or st.session_state["reviewed_status"].get(url, "No") == reviewed_filter)
+    ]
 
     # Dropdown for filtered URLs
     if filtered_urls:
@@ -107,9 +117,19 @@ with col2:
             decision = st.radio(
                 "What action should be taken for this URL?",
                 ["No Change", "Remove from Sitemap", "Delete"],
-                key=selected_url
+                key=f"decision_{selected_url}"
             )
             st.session_state["url_decisions"][selected_url] = decision
             st.write(f"Current Decision: {st.session_state['url_decisions'].get(selected_url, 'No Decision')}")
+
+            # Reviewed status for the selected URL
+            st.subheader("Reviewed Status")
+            reviewed = st.radio(
+                "Has this URL been reviewed?",
+                ["Yes", "No"],
+                key=f"reviewed_{selected_url}"
+            )
+            st.session_state["reviewed_status"][selected_url] = reviewed
+            st.write(f"Reviewed: {st.session_state['reviewed_status'].get(selected_url, 'No')}")
         else:
             st.write("No data available for this URL.")
