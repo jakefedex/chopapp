@@ -8,7 +8,7 @@ SHEET_URL = "https://docs.google.com/spreadsheets/d/1ly5WBt0c0bRy_EV8kdkP4SjsaAm
 def fetch_google_sheets_data():
     try:
         # Read the Google Sheet as a pandas DataFrame
-sheet_data = pd.read_csv(SHEET_URL, on_bad_lines="skip")  # Skips problematic rows
+        sheet_data = pd.read_csv(SHEET_URL, on_bad_lines="skip")  # Skips problematic rows
         urls = sheet_data.iloc[:, 0].tolist()  # Assuming first column contains URLs
         page_data = {
             row[0]: {sheet_data.columns[i]: row[i] for i in range(1, len(row))}
