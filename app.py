@@ -90,18 +90,18 @@ if selected_url:
                     elif sort_option == "Last 12 Months":
                         filtered_data = traffic_data.tail(365)
 
+                    # Display aggregated metrics
+                    total_visitors = filtered_data["Visitors"].sum()
+                    total_conversions = filtered_data["Conversions"].sum()
+                    conversion_rate = f"{(total_conversions / total_visitors * 100):.2f}%" if total_visitors > 0 else "0.00%"
+
+                    st.write(f"**Total Visitors:** {total_visitors}")
+                    st.write(f"**Total Conversions:** {total_conversions}")
+                    st.write(f"**Conversion Rate:** {conversion_rate}")
+
                     # Line chart for traffic data
                     st.line_chart(filtered_data.set_index("Date"))
 
-                    # Display aggregated metrics
-                    st.subheader("Key Metrics")
-                    st.write(
-                        {
-                            "Total Visitors": filtered_data["Visitors"].sum(),
-                            "Total Conversions": filtered_data["Conversions"].sum(),
-                            "Conversion Rate": f"{(filtered_data['Conversions'].sum() / filtered_data['Visitors'].sum() * 100):.2f}%",
-                        }
-                    )
                 elif key == "Actions":
                     st.subheader("Mark URL Decision")
                     decision = st.radio(
@@ -124,4 +124,4 @@ if selected_url:
                 else:
                     st.write(f"**{key}**: {data[key]}")
     else:
-        st.write("No data available for this URL.") 
+        st.write("No data available for this URL.")
