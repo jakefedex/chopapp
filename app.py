@@ -1,6 +1,9 @@
 import streamlit as st
 import pandas as pd
 
+# Set page configuration for wider layout
+st.set_page_config(layout="wide")
+
 # Google Sheets URL
 SHEET_URL = "https://docs.google.com/spreadsheets/d/1ly5WBt0c0bRy_EV8kdkP4SjsaAmkiRbzhiEYLZw2NrU/export?format=csv"  # Replace with your public Google Sheet URL
 
@@ -28,7 +31,7 @@ def fetch_google_sheets_data():
 urls, page_data = fetch_google_sheets_data()
 
 # Split layout
-col1, col2 = st.columns([1, 2])
+col1, col2 = st.columns([1, 3])
 
 # Left column: Search and List of URLs
 with col1:
@@ -52,8 +55,9 @@ with col2:
     if selected_url:
         data = page_data.get(selected_url, {})
         if data:
-            tabs = st.tabs(list(data.keys()))
-            for i, key in enumerate(data.keys()):
+            tab_names = list(data.keys())
+            tabs = st.tabs(tab_names)
+            for i, key in enumerate(tab_names):
                 with tabs[i]:
                     st.write(f"**{key}**: {data[key]}")
         else:
