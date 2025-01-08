@@ -56,7 +56,9 @@ with st.sidebar:
     ]
 
     # Dropdown for filtered URLs
-    selected_url = st.selectbox("Select a URL", [url.replace("https://www.fedex.com", "") for url in filtered_urls]) if filtered_urls else None
+    truncated_urls = [url.replace("https://www.fedex.com", "") for url in filtered_urls]
+    selected_truncated_url = st.selectbox("Select a URL", truncated_urls) if filtered_urls else None
+    selected_url = filtered_urls[truncated_urls.index(selected_truncated_url)] if selected_truncated_url else None
 
 # Detailed view for the selected URL
 if selected_url:
