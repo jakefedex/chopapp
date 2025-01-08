@@ -134,7 +134,7 @@ if selected_url:
                     st.dataframe(search_query_data)
                 elif key == "Actions":
                     st.subheader("Mark URL Decision")
-                    decision = st.radio(
+                    decision = st.selectbox(
                         "What action should be taken for this URL?",
                         ["No Change", "Remove from Sitemap", "Delete"],
                         key=f"decision_{selected_url}"
@@ -143,7 +143,7 @@ if selected_url:
                     st.write(f"Current Decision: {st.session_state['url_decisions'].get(selected_url, 'No Decision')}")
 
                     st.subheader("Reviewed Status")
-                    reviewed = st.radio(
+                    reviewed = st.selectbox(
                         "Has this URL been reviewed?",
                         ["Yes", "No"],
                         index=1,  # Default to "No"
