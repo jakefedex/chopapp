@@ -61,23 +61,38 @@ with col2:
             for i, key in enumerate(tab_names):
                 with tabs[i]:
                     if key == "Analytics":
-                        # Example analytics data
+                        # Analytics Tab with Sorting Functionality
                         st.subheader("Traffic Analytics")
+
+                        # Example traffic data
                         traffic_data = pd.DataFrame(
                             {
-                                "Date": pd.date_range(start="2023-01-01", periods=30, freq="D"),
-                                "Visitors": np.random.randint(50, 500, size=30),
-                                "Conversions": np.random.randint(1, 50, size=30),
+                                "Date": pd.date_range(start="2023-01-01", periods=365, freq="D"),
+                                "Visitors": np.random.randint(50, 500, size=365),
+                                "Conversions": np.random.randint(1, 50, size=365),
                             }
                         )
-                        st.line_chart(traffic_data.set_index("Date"))
 
+                        # Sorting options
+                        sort_option = st.selectbox("Select Time Range", ["Last 30 Days", "Last 6 Months", "Last 12 Months"])
+
+                        if sort_option == "Last 30 Days":
+                            filtered_data = traffic_data.tail(30)
+                        elif sort_option == "Last 6 Months":
+                            filtered_data = traffic_data.tail(182)
+                        elif sort_option == "Last 12 Months":
+                            filtered_data = traffic_data.tail(365)
+
+                        # Line chart for traffic data
+                        st.line_chart(filtered_data.set_index("Date"))
+
+                        # Display aggregated metrics
                         st.subheader("Key Metrics")
                         st.write(
                             {
-                                "Bounce Rate": "45%",
-                                "Conversion Rate": "3.5%",
-                                "Average Session Duration": "2m 15s",
+                                "Total Visitors": filtered_data["Visitors"].sum(),
+                                "Total Conversions": filtered_data["Conversions"].sum(),
+                                "Conversion Rate": f"{(filtered_data['Conversions'].sum() / filtered_data['Visitors'].sum() * 100):.2f}%",
                             }
                         )
                     else:
