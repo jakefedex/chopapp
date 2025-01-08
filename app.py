@@ -64,11 +64,21 @@ if selected_url:
     st.subheader(f"Selected URL: {selected_url}")  # Display the selected URL above the tabs
     data = page_data.get(selected_url, {})
     if data:
-        tab_names = ["Analytics", "Actions", "Description"]
+        tab_names = ["Description", "Analytics", "Actions", "SEO"]
         tabs = st.tabs(tab_names)
         for i, key in enumerate(tab_names):
             with tabs[i]:
-                if key == "Analytics":
+                if key == "Description":
+                    st.subheader("Page Description")
+                    if sheet_data is not None:
+                        row_data = sheet_data[sheet_data.iloc[:, 0] == selected_url].iloc[0, 1:6]
+                        st.write(f"**Page Description:** {row_data[0]}")
+                        st.write(f"**Author:** {row_data[1]}")
+                        st.write(f"**Page URL:** {row_data[2]}")
+                        st.write(f"**Meta Title:** {row_data[3]}")
+                        st.write(f"**Meta Description:** {row_data[4]}")
+
+                elif key == "Analytics":
                     st.subheader("Traffic Analytics")
 
                     # Example traffic data
@@ -125,14 +135,10 @@ if selected_url:
                     st.session_state["reviewed_status"][selected_url] = reviewed
                     st.write(f"Reviewed: {st.session_state['reviewed_status'].get(selected_url, 'No')}")
 
-                elif key == "Description":
-                    st.subheader("Page Description")
+                elif key == "SEO":
+                    st.subheader("SEO Information")
                     if sheet_data is not None:
-                        row_data = sheet_data[sheet_data.iloc[:, 0] == selected_url].iloc[0, 1:6]
-                        st.write(f"**Page Description:** {row_data[0]}")
-                        st.write(f"**Author:** {row_data[1]}")
-                        st.write(f"**Page URL:** {row_data[2]}")
-                        st.write(f"**Meta Title:** {row_data[3]}")
-                        st.write(f"**Meta Description:** {row_data[4]}")
+                        row_data = sheet_data[sheet_data.iloc[:, 0] == selected_url].iloc[0, 6]
+                        st.write(f"**Backlinks:** {row_data}")
     else:
         st.write("No data available for this URL.")
