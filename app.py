@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import numpy as np
 
 # Set page configuration for wider layout
 st.set_page_config(layout="wide")
@@ -55,10 +56,31 @@ with col2:
     if selected_url:
         data = page_data.get(selected_url, {})
         if data:
-            tab_names = list(data.keys())
+            tab_names = list(data.keys()) + ["Analytics"]
             tabs = st.tabs(tab_names)
             for i, key in enumerate(tab_names):
                 with tabs[i]:
-                    st.write(f"**{key}**: {data[key]}")
+                    if key == "Analytics":
+                        # Example analytics data
+                        st.subheader("Traffic Analytics")
+                        traffic_data = pd.DataFrame(
+                            {
+                                "Date": pd.date_range(start="2023-01-01", periods=30, freq="D"),
+                                "Visitors": np.random.randint(50, 500, size=30),
+                                "Conversions": np.random.randint(1, 50, size=30),
+                            }
+                        )
+                        st.line_chart(traffic_data.set_index("Date"))
+
+                        st.subheader("Key Metrics")
+                        st.write(
+                            {
+                                "Bounce Rate": "45%",
+                                "Conversion Rate": "3.5%",
+                                "Average Session Duration": "2m 15s",
+                            }
+                        )
+                    else:
+                        st.write(f"**{key}**: {data[key]}")
         else:
             st.write("No data available for this URL.")
