@@ -70,7 +70,7 @@ with col2:
     if selected_url:
         data = page_data.get(selected_url, {})
         if data:
-            tab_names = list(data.keys()) + ["Analytics"]
+            tab_names = list(data.keys()) + ["Analytics", "Actions"]
             tabs = st.tabs(tab_names)
             for i, key in enumerate(tab_names):
                 with tabs[i]:
@@ -109,27 +109,27 @@ with col2:
                                 "Conversion Rate": f"{(filtered_data['Conversions'].sum() / filtered_data['Visitors'].sum() * 100):.2f}%",
                             }
                         )
+                    elif key == "Actions":
+                        # Actions Tab for URL Decisions and Reviewed Status
+                        st.subheader("Mark URL Decision")
+                        decision = st.radio(
+                            "What action should be taken for this URL?",
+                            ["No Change", "Remove from Sitemap", "Delete"],
+                            key=f"decision_{selected_url}"
+                        )
+                        st.session_state["url_decisions"][selected_url] = decision
+                        st.write(f"Current Decision: {st.session_state['url_decisions'].get(selected_url, 'No Decision')}")
+
+                        st.subheader("Reviewed Status")
+                        reviewed = st.radio(
+                            "Has this URL been reviewed?",
+                            ["Yes", "No"],
+                            index=1,  # Default to "No"
+                            key=f"reviewed_{selected_url}"
+                        )
+                        st.session_state["reviewed_status"][selected_url] = reviewed
+                        st.write(f"Reviewed: {st.session_state['reviewed_status'].get(selected_url, 'No')}")
                     else:
                         st.write(f"**{key}**: {data[key]}")
-
-            # Decision options for the selected URL
-            st.subheader("Mark URL Decision")
-            decision = st.radio(
-                "What action should be taken for this URL?",
-                ["No Change", "Remove from Sitemap", "Delete"],
-                key=f"decision_{selected_url}"
-            )
-            st.session_state["url_decisions"][selected_url] = decision
-            st.write(f"Current Decision: {st.session_state['url_decisions'].get(selected_url, 'No Decision')}")
-
-            # Reviewed status for the selected URL
-            st.subheader("Reviewed Status")
-            reviewed = st.radio(
-                "Has this URL been reviewed?",
-                ["Yes", "No"],
-                key=f"reviewed_{selected_url}"
-            )
-            st.session_state["reviewed_status"][selected_url] = reviewed
-            st.write(f"Reviewed: {st.session_state['reviewed_status'].get(selected_url, 'No')}")
         else:
             st.write("No data available for this URL.")
