@@ -64,7 +64,7 @@ if selected_url:
     st.subheader(f"Selected URL: {selected_url}")  # Display the selected URL above the tabs
     data = page_data.get(selected_url, {})
     if data:
-        tab_names = list(data.keys()) + ["Analytics", "Actions"]
+        tab_names = list(data.keys()) + ["Analytics", "Actions", "Description"]
         tabs = st.tabs(tab_names)
         for i, key in enumerate(tab_names):
             with tabs[i]:
@@ -99,6 +99,9 @@ if selected_url:
                     st.write(f"**Total Conversions:** {total_conversions}")
                     st.write(f"**Conversion Rate:** {conversion_rate}")
 
+                    # Add a spacer
+                    st.markdown("---")
+
                     # Line chart for traffic data
                     st.line_chart(filtered_data.set_index("Date"))
 
@@ -121,6 +124,16 @@ if selected_url:
                     )
                     st.session_state["reviewed_status"][selected_url] = reviewed
                     st.write(f"Reviewed: {st.session_state['reviewed_status'].get(selected_url, 'No')}")
+
+                elif key == "Description":
+                    st.subheader("Page Description")
+                    if sheet_data is not None:
+                        row_data = sheet_data[sheet_data.iloc[:, 0] == selected_url].iloc[0, 1:6]
+                        st.write(f"**Column B:** {row_data[0]}")
+                        st.write(f"**Column C:** {row_data[1]}")
+                        st.write(f"**Column D:** {row_data[2]}")
+                        st.write(f"**Column E:** {row_data[3]}")
+                        st.write(f"**Column F:** {row_data[4]}")
                 else:
                     st.write(f"**{key}**: {data[key]}")
     else:
