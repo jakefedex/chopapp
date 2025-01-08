@@ -64,7 +64,7 @@ if selected_url:
     st.subheader(f"Selected URL: {selected_url}")  # Display the selected URL above the tabs
     data = page_data.get(selected_url, {})
     if data:
-        tab_names = list(data.keys()) + ["Analytics", "Actions", "Description"]
+        tab_names = ["Analytics", "Actions", "Description"]
         tabs = st.tabs(tab_names)
         for i, key in enumerate(tab_names):
             with tabs[i]:
@@ -129,12 +129,10 @@ if selected_url:
                     st.subheader("Page Description")
                     if sheet_data is not None:
                         row_data = sheet_data[sheet_data.iloc[:, 0] == selected_url].iloc[0, 1:6]
-                        st.write(f"**Column B:** {row_data[0]}")
-                        st.write(f"**Column C:** {row_data[1]}")
-                        st.write(f"**Column D:** {row_data[2]}")
-                        st.write(f"**Column E:** {row_data[3]}")
-                        st.write(f"**Column F:** {row_data[4]}")
-                else:
-                    st.write(f"**{key}**: {data[key]}")
+                        st.write(f"**Page Description:** {row_data[0]}")
+                        st.write(f"**Author:** {row_data[1]}")
+                        st.write(f"**Page URL:** {row_data[2]}")
+                        st.write(f"**Meta Title:** {row_data[3]}")
+                        st.write(f"**Meta Description:** {row_data[4]}")
     else:
         st.write("No data available for this URL.")
