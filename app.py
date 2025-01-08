@@ -133,3 +133,27 @@ with col2:
                         st.write(f"**{key}**: {data[key]}")
         else:
             st.write("No data available for this URL.")
+
+# Export user selections
+def export_user_selections():
+    decisions_data = [
+        {"URL": url, "Decision": decision, "Reviewed": st.session_state["reviewed_status"].get(url, "No")}
+        for url, decision in st.session_state["url_decisions"].items()
+    ]
+    return pd.DataFrame(decisions_data)
+
+if st.button("Export Selections"):
+    # Prepare the data for export
+    export_df = export_user_selections()
+    
+    if not export_df.empty:
+        csv_data = export_df.to_csv(index=False)
+        st.download_button(
+            label="Download CSV",
+            data=csv_data,
+            file_name="user_selections.csv",
+            mime="text/csv",
+        )
+    else:
+        st.warning("No selections have been made yet!")
+
