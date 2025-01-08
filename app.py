@@ -1,47 +1,26 @@
 import streamlit as st
+import pandas as pd
 
-# Sample data
-urls = [
-    "home/about",
-    "home/services/shipping",
-    "home/services/international",
-    "home/services/printing"
-]
+# Google Sheets URL
+SHEET_URL = "your_public_google_sheet_url"  # Replace with your public Google Sheet URL
 
-page_data = {
-    "home/about": {
-        "Performance": "95%",
-        "CWV": "Good",
-        "Page Speed": "1.2s",
-        "Recent Changes": "Updated meta description",
-        "Description": "About us page",
-        "Intent": "Informational",
-    },
-    "home/services/shipping": {
-        "Performance": "85%",
-        "CWV": "Needs Improvement",
-        "Page Speed": "2.3s",
-        "Recent Changes": "Added new FAQ",
-        "Description": "Shipping services overview",
-        "Intent": "Transactional",
-    },
-    "home/services/international": {
-        "Performance": "78%",
-        "CWV": "Poor",
-        "Page Speed": "3.5s",
-        "Recent Changes": "Updated rates",
-        "Description": "International shipping details",
-        "Intent": "Transactional",
-    },
-    "home/services/printing": {
-        "Performance": "92%",
-        "CWV": "Good",
-        "Page Speed": "1.8s",
-        "Recent Changes": "Added new product details",
-        "Description": "Printing services overview",
-        "Intent": "Transactional",
-    }
-}
+# Fetch data from Google Sheets
+def fetch_google_sheets_data():
+    try:
+        # Read the Google Sheet as a pandas DataFrame
+        sheet_data = pd.read_csv(SHEET_URL)
+        urls = sheet_data.iloc[:, 0].tolist()  # Assuming first column contains URLs
+        page_data = {
+            row[0]: {sheet_data.columns[i]: row[i] for i in range(1, len(row))}
+            for row in sheet_data.values
+        }
+        return urls, page_data
+    except Exception as e:
+        st.error(f"Error fetching data: {e}")
+        return [], {}
+
+# Fetch data
+urls, page_data = fetch_google_sheets_data()
 
 # Split layout
 col1, col2 = st.columns([1, 2])
