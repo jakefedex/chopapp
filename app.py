@@ -45,7 +45,6 @@ with st.sidebar:
         filtered_urls = [url for url in urls if sheet_data[sheet_data.iloc[:, 0] == url].iloc[0, 1] == author_sort and (reviewed_filter == "All" or st.session_state["reviewed_status"].get(url, "No") == reviewed_filter)]
     else:
         filtered_urls = [url for url in urls if search_query.lower() in url.lower() and (reviewed_filter == "All" or st.session_state["reviewed_status"].get(url, "No") == reviewed_filter)]
-    filtered_urls = [url for url in urls if search_query.lower() in url.lower() and (reviewed_filter == "All" or st.session_state["reviewed_status"].get(url, "No") == reviewed_filter)]
     truncated_urls = [url.replace("https://www.fedex.com", "") for url in filtered_urls]
     selected_truncated_url = st.selectbox("Select a URL", truncated_urls) if filtered_urls else None
     selected_url = filtered_urls[truncated_urls.index(selected_truncated_url)] if selected_truncated_url else None
@@ -75,7 +74,7 @@ if selected_url:
                 st.write(f"**Is In Sitemap:** Yes")
                 st.write(f"**Unique Referring Domains:** {sheet_data[sheet_data.iloc[:, 0] == selected_url].iloc[0, 6]}")
                 st.write(f"**Number of Incoming Internal Links:** {sheet_data[sheet_data.iloc[:, 0] == selected_url].iloc[0, 7]}")
-                st.write(f"**HTTP Status:** {st.selectbox('Select HTTP Status', ['200', '301', '404', 'Other'], key=f'http_status_{selected_url}')}")
+                st.write(f"**HTTP Status:** {st.selectbox('Select HTTP Status', ['200', '301', '404', 'Other'], key=f'http_status_{selected_url}')}"))
 
         # Analytics Tab
         with tabs[1]:
@@ -207,3 +206,7 @@ if selected_url:
 )
     else:
         st.write("No data available for this URL.")
+
+# Footer
+st.markdown("---")
+st.markdown("<div style='text-align: center;'>Built by: Jake L.</div>", unsafe_allow_html=True)
