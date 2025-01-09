@@ -74,8 +74,16 @@ if selected_url:
             st.subheader("Analytics")
 
             # Add export option
-            if st.button("Export Traffic Data"):
+            if "filtered_data" in locals() or "filtered_data" in globals():
                 csv_data = filtered_data.to_csv(index=False)
+                st.download_button(
+                    label="Download Traffic Data as CSV",
+                    data=csv_data,
+                    file_name="traffic_data.csv",
+                    mime="text/csv"
+                )
+            else:
+                st.warning("Please select a timeframe to generate data for export.")
                 st.download_button(
                     label="Download Traffic Data as CSV",
                     data=csv_data,
