@@ -70,6 +70,9 @@ if selected_url:
                 st.write(f"**Unique Referring Domains:** {sheet_data[sheet_data.iloc[:, 0] == selected_url].iloc[0, 6]}")
                 st.write(f"**Number of Incoming Internal Links:** {sheet_data[sheet_data.iloc[:, 0] == selected_url].iloc[0, 7]}")
                 st.write(f"**HTTP Status:** {st.selectbox('Select HTTP Status', ['200', '301', '404', 'Other'], key=f'http_status_{selected_url}')}")
+                st.write(f"**Is In Sitemap:** Yes")
+                st.write(f"**Unique Referring Domains:** {sheet_data[sheet_data.iloc[:, 0] == selected_url].iloc[0, 6]}")
+                st.write(f"**Number of Incoming Internal Links:** {sheet_data[sheet_data.iloc[:, 0] == selected_url].iloc[0, 7]}")
 
         # Analytics Tab
         with tabs[1]:
@@ -126,7 +129,9 @@ if selected_url:
                         "Clicks": np.random.randint(10, 500, 20),
                     }
 ).sort_values(by="Clicks", ascending=False)
-                st.dataframe(search_query_data, use_container_width=True)
+                search_query_data_page = st.experimental_data_editor(
+                    search_query_data, num_rows="dynamic", use_container_width=True
+                )
 
         # Actions Tab
         with tabs[2]:
