@@ -9,7 +9,7 @@ st.set_page_config(layout="wide")
 SHEET_URL = "https://docs.google.com/spreadsheets/d/1ly5WBt0c0bRy_EV8kdkP4SjsaAmkiRbzhiEYLZw2NrU/export?format=csv"  # Replace with your public Google Sheet URL
 
 # Fetch Google Sheets data
-@st.cache
+@st.cache_data
 def fetch_google_sheets_data():
     try:
         sheet_data = pd.read_csv(SHEET_URL)
