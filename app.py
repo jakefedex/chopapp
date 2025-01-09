@@ -209,4 +209,4 @@ if selected_url:
 
 # Footer
 st.markdown("---")
-st.markdown("<div style='text-align: center;'>Built by: Jake L.</div>", unsafe_allow_html=True)
+st.markdown("<div style='text-align: left; font-size: small;'>Built by: Jake L.</div>", unsafe_allow_html=True)
