@@ -67,7 +67,7 @@ if selected_url:
             with col2:
                 st.write("### SEO Summary")
                 st.write(f"**Is In Sitemap:** Yes")
-                st.write(f"**Backlinks:** {sheet_data[sheet_data.iloc[:, 0] == selected_url].iloc[0, 6]}")
+                st.write(f"**Unique Referring Domains:** {sheet_data[sheet_data.iloc[:, 0] == selected_url].iloc[0, 6]}")
                 st.write(f"**Number of Internal Links:** {sheet_data[sheet_data.iloc[:, 0] == selected_url].iloc[0, 7]}")
 
         # Analytics Tab
