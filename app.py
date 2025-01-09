@@ -103,21 +103,15 @@ if selected_url:
 
             col1, col2, col3 = st.columns(3)
             with col1:
+                from streamlit_extras.metric_cards import style_metric_cards
                 st.write("### Traffic Summary")
-                traffic_data = pd.DataFrame(
-                    {
-                        "Date": pd.date_range(start="2023-01-01", periods=365, freq="D"),
-                        "Visitors": np.random.randint(50, 500, size=365),
-                        "Conversions": np.random.randint(1, 50, size=365),
-                    }
-)
-                filtered_data = traffic_data.tail(30)
-                total_visitors = filtered_data["Visitors"].sum()
-                total_conversions = filtered_data["Conversions"].sum()
-                conversion_rate = f"{(total_conversions / total_visitors * 100):.2f}%" if total_visitors > 0 else "0.00%"
-                st.write(f"**Total Visitors:** {total_visitors}")
-                st.write(f"**Total Conversions:** {total_conversions}")
-                st.write(f"**Conversion Rate:** {conversion_rate}")
+
+                st.metric("Total Visitors", f"{total_visitors}")
+                st.metric("Total Conversions", f"{total_conversions}")
+                st.metric("Conversion Rate", f"{conversion_rate}")
+
+                # Apply styling to metric cards
+                style_metric_cards()
             with col2:
                 st.write("### Traffic Trends")
                 st.line_chart(filtered_data.set_index("Date"))
