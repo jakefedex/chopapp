@@ -106,6 +106,11 @@ if selected_url:
                 from streamlit_extras.metric_cards import style_metric_cards
                 st.write("### Traffic Summary")
 
+                # Calculate metrics
+                total_visitors = filtered_data["Visitors"].sum()
+                total_conversions = filtered_data["Conversions"].sum()
+                conversion_rate = f"{(total_conversions / total_visitors * 100):.2f}%" if total_visitors > 0 else "0.00%"
+
                 st.metric("Total Visitors", f"{total_visitors}")
                 st.metric("Total Conversions", f"{total_conversions}")
                 st.metric("Conversion Rate", f"{conversion_rate}")
