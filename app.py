@@ -74,7 +74,7 @@ if selected_url:
                 st.write(f"**Is In Sitemap:** Yes")
                 st.write(f"**Unique Referring Domains:** {sheet_data[sheet_data.iloc[:, 0] == selected_url].iloc[0, 6]}")
                 st.write(f"**Number of Incoming Internal Links:** {sheet_data[sheet_data.iloc[:, 0] == selected_url].iloc[0, 7]}")
-                st.write(f"**HTTP Status:** {st.selectbox('Select HTTP Status', ['200', '301', '404', 'Other'], key=f'http_status_{selected_url}')}"))
+                st.write(f"**HTTP Status:** {st.selectbox('Select HTTP Status', ['200', '301', '404', 'Other'], key=f'http_status_{selected_url}')}")
 
         # Analytics Tab
         with tabs[1]:
