@@ -47,7 +47,7 @@ with st.sidebar:
 # Main Content
 if selected_url:
     st.header("Page Data")
-    st.write(f"Selected URL: {selected_url}")
+    st.subheader(f"Selected URL: {selected_url}")
     data = page_data.get(selected_url, {})
     if data:
         tab_names = ["Overview", "Analytics", "Actions", "Technical", "AI Suggestions", "Preview"]
@@ -73,14 +73,15 @@ if selected_url:
         with tabs[1]:
             st.subheader("Analytics")
 
-            # Initialize traffic data
-            traffic_data = pd.DataFrame(
-                {
-                    "Date": pd.date_range(start="2023-01-01", periods=365, freq="D"),
-                    "Visitors": np.random.randint(50, 500, size=365),
-                    "Conversions": np.random.randint(1, 50, size=365),
-                }
-            )
+            # Add export option
+            if st.button("Export Traffic Data"):
+                csv_data = filtered_data.to_csv(index=False)
+                st.download_button(
+                    label="Download Traffic Data as CSV",
+                    data=csv_data,
+                    file_name="traffic_data.csv",
+                    mime="text/csv"
+                )
 
             # Timeframe Selector
             timeframe = st.selectbox("Select Time Range", ["Last 30 Days", "Last 3 Months", "Last 6 Months", "Last 12 Months"])
@@ -98,6 +99,14 @@ if selected_url:
             col1, col2, col3 = st.columns(3)
             with col1:
                 st.write("### Traffic Summary")
+                traffic_data = pd.DataFrame(
+                    {
+                        "Date": pd.date_range(start="2023-01-01", periods=365, freq="D"),
+                        "Visitors": np.random.randint(50, 500, size=365),
+                        "Conversions": np.random.randint(1, 50, size=365),
+                    }
+                )
+                filtered_data = traffic_data.tail(30)
                 total_visitors = filtered_data["Visitors"].sum()
                 total_conversions = filtered_data["Conversions"].sum()
                 conversion_rate = f"{(total_conversions / total_visitors * 100):.2f}%" if total_visitors > 0 else "0.00%"
