@@ -87,6 +87,14 @@ if selected_url:
             timeframe = st.selectbox("Select Time Range", ["Last 30 Days", "Last 3 Months", "Last 6 Months", "Last 12 Months"])
 
             # Filter traffic data based on timeframe
+            traffic_data = pd.DataFrame(
+                {
+                    "Date": pd.date_range(start="2023-01-01", periods=365, freq="D"),
+                    "Visitors": np.random.randint(50, 500, size=365),
+                    "Conversions": np.random.randint(1, 50, size=365),
+                }
+            )
+
             if timeframe == "Last 30 Days":
                 filtered_data = traffic_data.tail(30)
             elif timeframe == "Last 3 Months":
