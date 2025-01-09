@@ -39,6 +39,12 @@ with st.sidebar:
     st.header("Search and Filter")
     reviewed_filter = st.selectbox("Filter by Reviewed Status", ["All", "Yes", "No"])
     search_query = st.text_input("Search", "")
+    author_sort = st.selectbox("Sort by Author", ["None"] + sorted(sheet_data['Author'].dropna().unique().tolist()))
+
+    if author_sort != "None":
+        filtered_urls = [url for url in urls if sheet_data[sheet_data.iloc[:, 0] == url].iloc[0, 1] == author_sort and (reviewed_filter == "All" or st.session_state["reviewed_status"].get(url, "No") == reviewed_filter)]
+    else:
+        filtered_urls = [url for url in urls if search_query.lower() in url.lower() and (reviewed_filter == "All" or st.session_state["reviewed_status"].get(url, "No") == reviewed_filter)]
     filtered_urls = [url for url in urls if search_query.lower() in url.lower() and (reviewed_filter == "All" or st.session_state["reviewed_status"].get(url, "No") == reviewed_filter)]
     truncated_urls = [url.replace("https://www.fedex.com", "") for url in filtered_urls]
     selected_truncated_url = st.selectbox("Select a URL", truncated_urls) if filtered_urls else None
