@@ -47,7 +47,7 @@ with st.sidebar:
 # Main Content
 if selected_url:
     st.header("Page Data")
-    st.subheader(f"Selected URL: {selected_url}")
+    st.write(f"Selected URL: {selected_url}")
     data = page_data.get(selected_url, {})
     if data:
         tab_names = ["Overview", "Analytics", "Actions", "Technical", "AI Suggestions", "Preview"]
