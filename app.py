@@ -71,15 +71,7 @@ if selected_url:
 
         # Analytics Tab
         with tabs[1]:
-            st.subheader("Analytics")
-
-            
-                st.download_button(
-                    label="Download Traffic Data as CSV",
-                    data=csv_data,
-                    file_name="traffic_data.csv",
-                    mime="text/csv"
-                )
+            st.subheader("Analytics")   
 
             # Timeframe Selector
             timeframe = st.selectbox("Select Time Range", ["Last 30 Days", "Last 3 Months", "Last 6 Months", "Last 12 Months"])
@@ -91,7 +83,7 @@ if selected_url:
                     "Visitors": np.random.randint(50, 500, size=365),
                     "Conversions": np.random.randint(1, 50, size=365),
                 }
-            )
+)
 
             if timeframe == "Last 30 Days":
                 filtered_data = traffic_data.tail(30)
@@ -111,7 +103,7 @@ if selected_url:
                         "Visitors": np.random.randint(50, 500, size=365),
                         "Conversions": np.random.randint(1, 50, size=365),
                     }
-                )
+)
                 filtered_data = traffic_data.tail(30)
                 total_visitors = filtered_data["Visitors"].sum()
                 total_conversions = filtered_data["Conversions"].sum()
@@ -131,7 +123,7 @@ if selected_url:
                         "Impressions": np.random.randint(100, 10000, 20),
                         "Clicks": np.random.randint(10, 500, 20),
                     }
-                ).sort_values(by="Clicks", ascending=False)
+).sort_values(by="Clicks", ascending=False)
                 st.dataframe(search_query_data, use_container_width=True)
 
         # Actions Tab
@@ -143,7 +135,7 @@ if selected_url:
                     "What action should be taken for this URL?",
                     ["No Change", "Remove from Sitemap", "Delete"],
                     key=f"decision_{selected_url}"
-                )
+)
                 st.session_state["url_decisions"][selected_url] = decision
                 st.write(f"Current Decision: {st.session_state['url_decisions'].get(selected_url, 'No Decision')}")
             with col2:
@@ -152,7 +144,7 @@ if selected_url:
                     ["Yes", "No"],
                     index=1,  # Default to "No"
                     key=f"reviewed_{selected_url}"
-                )
+)
                 st.session_state["reviewed_status"][selected_url] = reviewed
                 reviewed_status = st.session_state['reviewed_status'].get(selected_url, 'No')
                 if reviewed_status == 'Yes':
@@ -192,6 +184,6 @@ if selected_url:
             st.markdown(
                 f'<iframe src="{selected_url}" width="100%" height="600" frameborder="0"></iframe>',
                 unsafe_allow_html=True
-            )
+)
     else:
         st.write("No data available for this URL.")
