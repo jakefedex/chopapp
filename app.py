@@ -175,9 +175,9 @@ if selected_url:
             col1, col2 = st.columns(2)
             with col1:
                 st.write("### Core Web Vitals")
-                st.markdown("**Largest Contentful Paint (LCP):** 2.3s <span style='background-color: green; color: white;'>Good</span>", unsafe_allow_html=True)
-                st.markdown("**Cumulative Layout Shift (CLS):** 0.05 <span style='background-color: green; color: white;'>Good</span>", unsafe_allow_html=True)
-                st.markdown("**First Input Delay (FID):** 18ms <span style='background-color: green; color: white;'>Good</span>", unsafe_allow_html=True)
+                st.markdown("**Largest Contentful Paint (LCP):** 2.3s <span style='background-color: orange; color: white; padding: 2px 5px;'>Okay</span>", unsafe_allow_html=True)
+                st.markdown("**Cumulative Layout Shift (CLS):** 0.05 <span style='background-color: green; color: white; padding: 2px 5px;'>Good</span>", unsafe_allow_html=True)
+                st.markdown("**First Input Delay (FID):** 18ms <span style='background-color: red; color: white; padding: 2px 5px;'>Poor</span>", unsafe_allow_html=True)
             with col2:
                 st.write("### Link and Indexing Details")
                 st.write("**Canonical URL:** Present")
