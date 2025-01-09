@@ -1,5 +1,3 @@
-pip install git+https://github.com/arnaudmiribel/streamlit-extras.git
-
 import streamlit as st
 import pandas as pd
 import numpy as np
