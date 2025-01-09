@@ -70,55 +70,53 @@ if selected_url:
                 st.write(f"**Number of Internal Links:** {sheet_data[sheet_data.iloc[:, 0] == selected_url].iloc[0, 7]}")
 
         # Analytics Tab
-with tabs[1]:
-    st.subheader("Analytics")
+        with tabs[1]:
+            st.subheader("Analytics")
 
-    # Example traffic data (initialize before filtering)
-    traffic_data = pd.DataFrame(
-        {
-            "Date": pd.date_range(start="2023-01-01", periods=365, freq="D"),
-            "Visitors": np.random.randint(50, 500, size=365),
-            "Conversions": np.random.randint(1, 50, size=365),
-        }
-    )
+            # Timeframe Selector
+            timeframe = st.selectbox("Select Time Range", ["Last 30 Days", "Last 3 Months", "Last 6 Months", "Last 12 Months"])
 
-    # Timeframe Selector
-    timeframe = st.selectbox("Select Time Range", ["Last 30 Days", "Last 3 Months", "Last 6 Months", "Last 12 Months"])
+            # Filter traffic data based on timeframe
+            if timeframe == "Last 30 Days":
+                filtered_data = traffic_data.tail(30)
+            elif timeframe == "Last 3 Months":
+                filtered_data = traffic_data.tail(90)
+            elif timeframe == "Last 6 Months":
+                filtered_data = traffic_data.tail(180)
+            elif timeframe == "Last 12 Months":
+                filtered_data = traffic_data.tail(365)
 
-    # Filter traffic data based on timeframe
-    if timeframe == "Last 30 Days":
-        filtered_data = traffic_data.tail(30)
-    elif timeframe == "Last 3 Months":
-        filtered_data = traffic_data.tail(90)
-    elif timeframe == "Last 6 Months":
-        filtered_data = traffic_data.tail(180)
-    elif timeframe == "Last 12 Months":
-        filtered_data = traffic_data.tail(365)
-
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        st.write("### Traffic Summary")
-        total_visitors = filtered_data["Visitors"].sum()
-        total_conversions = filtered_data["Conversions"].sum()
-        conversion_rate = f"{(total_conversions / total_visitors * 100):.2f}%" if total_visitors > 0 else "0.00%"
-        st.write(f"**Total Visitors:** {total_visitors}")
-        st.write(f"**Total Conversions:** {total_conversions}")
-        st.write(f"**Conversion Rate:** {conversion_rate}")
-    with col2:
-        st.write("### Traffic Trends")
-        st.line_chart(filtered_data.set_index("Date"))
-    with col3:
-        st.write("### Search Queries")
-        search_query_data = pd.DataFrame(
-            {
-                "Query": [f"demo query {i}" for i in range(1, 21)],
-                "CTR": np.random.uniform(1.0, 10.0, 20).round(2),
-                "Impressions": np.random.randint(100, 10000, 20),
-                "Clicks": np.random.randint(10, 500, 20),
-            }
-        ).sort_values(by="Clicks", ascending=False)
-        st.dataframe(search_query_data, use_container_width=True)
-
+            col1, col2, col3 = st.columns(3)
+            with col1:
+                st.write("### Traffic Summary")
+                traffic_data = pd.DataFrame(
+                    {
+                        "Date": pd.date_range(start="2023-01-01", periods=365, freq="D"),
+                        "Visitors": np.random.randint(50, 500, size=365),
+                        "Conversions": np.random.randint(1, 50, size=365),
+                    }
+                )
+                filtered_data = traffic_data.tail(30)
+                total_visitors = filtered_data["Visitors"].sum()
+                total_conversions = filtered_data["Conversions"].sum()
+                conversion_rate = f"{(total_conversions / total_visitors * 100):.2f}%" if total_visitors > 0 else "0.00%"
+                st.write(f"**Total Visitors:** {total_visitors}")
+                st.write(f"**Total Conversions:** {total_conversions}")
+                st.write(f"**Conversion Rate:** {conversion_rate}")
+            with col2:
+                st.write("### Traffic Trends")
+                st.line_chart(filtered_data.set_index("Date"))
+            with col3:
+                st.write("### Search Queries")
+                search_query_data = pd.DataFrame(
+                    {
+                        "Query": [f"demo query {i}" for i in range(1, 21)],
+                        "CTR": np.random.uniform(1.0, 10.0, 20).round(2),
+                        "Impressions": np.random.randint(100, 10000, 20),
+                        "Clicks": np.random.randint(10, 500, 20),
+                    }
+                ).sort_values(by="Clicks", ascending=False)
+                st.dataframe(search_query_data, use_container_width=True)
 
         # Actions Tab
         with tabs[2]:
