@@ -55,7 +55,7 @@ if selected_url:
     st.subheader(f"Selected URL: {selected_url}")
     data = page_data.get(selected_url, {})
     if data:
-        tab_names = ["Overview", "Analytics", "Actions", "Technical", "AI Suggestions", "Preview"]
+        tab_names = ["Overview", "Analytics", "Technical", "AI Suggestions", "Preview", "Actions"]
         tabs = st.tabs(tab_names)
 
         # Overview Tab
@@ -145,7 +145,7 @@ if selected_url:
                 st.dataframe(paginated_data, use_container_width=True)
 
         # Actions Tab
-        with tabs[2]:
+        with tabs[5]:
             st.subheader("Actions")
             col1, col2 = st.columns(2)
             with col1:
