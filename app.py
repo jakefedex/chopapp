@@ -129,9 +129,19 @@ if selected_url:
                         "Clicks": np.random.randint(10, 500, 20),
                     }
 ).sort_values(by="Clicks", ascending=False)
-                search_query_data_page = st.experimental_data_editor(
-                    search_query_data, num_rows="dynamic", use_container_width=True
-                )
+                # Define pagination parameters
+                page_size = 5
+                num_pages = len(search_query_data) // page_size + (len(search_query_data) % page_size > 0)
+
+                # Create a page selector
+                current_page = st.number_input("Page", min_value=1, max_value=num_pages, step=1, value=1)
+
+                # Slice the dataframe to only show the current page
+                start_idx = (current_page - 1) * page_size
+                end_idx = start_idx + page_size
+                paginated_data = search_query_data.iloc[start_idx:end_idx]
+
+                st.dataframe(paginated_data, use_container_width=True)
 
         # Actions Tab
         with tabs[2]:
