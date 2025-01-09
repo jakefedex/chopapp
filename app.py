@@ -72,6 +72,20 @@ if selected_url:
         # Analytics Tab
         with tabs[1]:
             st.subheader("Analytics")
+
+            # Timeframe Selector
+            timeframe = st.selectbox("Select Time Range", ["Last 30 Days", "Last 3 Months", "Last 6 Months", "Last 12 Months"])
+
+            # Filter traffic data based on timeframe
+            if timeframe == "Last 30 Days":
+                filtered_data = traffic_data.tail(30)
+            elif timeframe == "Last 3 Months":
+                filtered_data = traffic_data.tail(90)
+            elif timeframe == "Last 6 Months":
+                filtered_data = traffic_data.tail(180)
+            elif timeframe == "Last 12 Months":
+                filtered_data = traffic_data.tail(365)
+
             col1, col2, col3 = st.columns(3)
             with col1:
                 st.write("### Traffic Summary")
